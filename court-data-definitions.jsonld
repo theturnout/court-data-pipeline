@@ -1,0 +1,154 @@
+{
+    "@context": {
+        "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+        "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+        "schema": "https://schema.org/",
+        "sh": "http://www.w3.org/ns/shacl#",
+        "xsd": "http://www.w3.org/2001/XMLSchema#",
+        "cds": "http://localhost:8000/court-data-definitions.jsonld#"
+    },
+    "@graph": [
+        {
+            "@id":"cds:Courthouse",
+            "@type":"rdfs:Class",
+            "rdfs:comment": "A public building in which legal matters are conducted, especially those involving courts and judges or other officials.",
+            "rdfs:label":"Courthouse"
+        },
+        {
+            "@id":"cds:CourtSystem",
+            "@type":"rdfs:Class",
+            "rdfs:comment":"A local, regional, or national organization of courts and courthouses.",
+            "rdfs:label":"CourtSystem"
+        },
+        {
+            "@id":"schema:areaServed",
+            "@type":"rdf:Property",
+            "rdfs:comment":"Represents the geographic area served by a Courthouse or a CourtSystem. When used by a CourtSystem, the areaServed may point to one or more AdministrativeAreas to represent geographic divisions of the court, e.g., districts and circuits.",
+            "rdfs:label":"area served",
+            "schema:domainIncludes": [
+                {
+                    "@id":"cds:Courthouse"
+                },
+                {
+                    "@id":"cds:CourtSystem"
+                }
+            ],
+            "schema:rangeIncludes": {
+                "@id":"schema:AdministrativeArea"
+            }
+        },
+        {
+            "@id":"schema:conditionsOfAccess",
+            "@type":"rdf:Property",
+            "rdfs:comment":"A list of restrictions and requirements for accessing a courthouse or court room. These may include physical items, such as cell phones or identification, or personal characteristics, such as age or participation in a proceeding or activity.",
+            "rdfs:label":"conditions of access",
+            "schema:domainIncludes": {
+                "@id":"cds:Courthouse"
+            },
+            "schema:rangeIncludes": {
+                "@id":"xsd:string"
+            }
+        },
+        {
+            "@id":"schema:name",
+            "@type":"rdf:Property",
+            "rdfs:comment":"The official name of the entity being described. This may be associated with an administrative area, person, system, or courthouse.",
+            "rdfs:label":"name",
+            "schema:domainIncludes": [
+                {
+                    "@id":"cds:Courthouse"
+                },
+                {
+                    "@id":"cds:CourtSystem"
+                }
+            ],
+            "schema:rangeIncludes": {
+                "@id":"xsd:string"
+            }
+        },
+        {
+            "@id":"schema:contactPoint",
+            "@type":"rdf:Property",
+            "rdfs:comment":"A telephone number and/or email address at which courthouse staff or resources may be reached by members of the public.",
+            "rdfs:label":"contact point",
+            "schema:domainIncludes":{
+                "@id":"cds:Courthouse"
+            },
+            "schema:rangeIncludes": {
+                "@id":"schema:ContactPoint"
+            }
+        },
+        {
+            "@id":"schema:hasOfferCatalog",
+            "@type":"rdf:Property",
+            "rdfs:comment":"An indicator that a courthouse offers amenities to the public, such as free wifi, restrooms, etc.",
+            "rdfs:label":"has amenities",
+            "schema:domainIncludes":{
+                "@id":"cds:Courthouse"
+            },
+            "schema:rangeIncludes": {
+                "@id":"schema:ContactPoint"
+            }
+        },
+        {
+            "@id":"schema:image",
+            "@type":"rdf:Property",
+            "rdfs:comment":"A URL linking directly to an image of the courthouse.",
+            "rdfs:label":"courthouse image",
+            "schema:domainIncludes": {
+                "@id":"cds:Courthouse"
+            },
+            "schema:rangeIncludes": {
+                "@id":"xsd:string"
+            }
+        },
+        {
+            "@id":"schema:knowsLanguage",
+            "@type":"rdf:Property",
+            "rdfs:comment":"The language or languages spoken or that may be accommodated at the courthouse. Languages must be expressed with ISO 639-1 compliant two-character codes. If multiple languages are accommodated, they should be recorded as a list with a comma and whitespace separating languages.",
+            "rdfs:label":"languages spoken",
+            "schema:domainIncludes": {
+                "@id":"cds:Courthouse"
+            },
+            "schema:rangeIncludes": {
+                "@id":"xsd:string"
+            }
+        },
+        {
+            "@id":"schema:location",
+            "@type":"rdf:Property",
+            "rdfs:comment":"Information about the courthouse including physical address, operating hours, and a map.",
+            "rdfs:label":"location",
+            "schema:domainIncludes": {
+                "@id":"cds:Courthouse"
+            },
+            "schema:rangeIncludes": {
+                "@id":"schema:Place"
+            }
+        },
+        {
+            "@id":"schema:publicAccess",
+            "@type":"rdf:Property",
+            "rdfs:comment":"Indicates that the courthouse or court room is open to the general public.",
+            "rdfs:label":"public access",
+            "schema:domainIncludes": {
+                "@id":"cds:Courthouse"
+            },
+            "schema:rangeIncludes": {
+                "@id":"xsd:boolean"
+            }
+        },
+        {
+            "@id":"schema:subOrganization",
+            "@type":"rdf:Property",
+            "rdfs:comment":"Records information about courts located within a courthouse such as hours of operation, court-specific contact information, and matters served.",
+            "rdfs:label":"court",
+            "schema:domainIncludes": {
+                "@id":"cds:Courthouse"
+            },
+            "schema:rangeIncludes": {
+                "@id":"cds:Courthouse"
+            }
+        }
+    ]
+}

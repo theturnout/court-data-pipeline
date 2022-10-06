@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="http://localhost:8000/linked-data.json" rel="alternate" type="application/ld+json" />
+    <title>JSON-LD Scraper</title>
+</head>
+<body>
+    <p>Psst... hey, buddy. Interested in some JSON-LD?</p>
+    <p>How about some .json?</p>
+    <script type="application/ld+json">
+        {
+            [
+                {
+                    "@context": "http://schema.org/",
+                    "@id": "http://schema.org/AdministrativeArea",
+                    "@type": "http://schema.org/AdministrativeArea",
+                    "name": "State of Illinois Circuit Feature Class",
+                    "geoContains": "https://www.illinoiscourts.gov/Circuit/1",
+                    "areaServed": "http://www.illinoiscourts.gov/Circuit/1"
+                },
+                {
+                    "@context": "http://schema.org/",
+                    "@id": "http://schema.org/ContactPoint",
+                    "@type": "http://schema.org/ContactPoint",
+                    "contactType": "Clerk",
+                    "description": "Clark Clerk",
+                    "telephone": "(310) 578-9874",
+                    "email": "clerk.clark@courts"
+                },
+                {
+                    "@context": ["http://localhost:8000/court-data-definitions.jsonld", "http://schema.org"],
+                    "@id": "http://www.illinoiscourts.gov",
+                    "@type": "http://localhost:8000/court-data-definitions.jsonld#CourtSystem",
+                    "name": "State of Illinois Circuit Court",
+                    "areaServed": "http://www.illinoiscourts.gov/Circuit"
+                }
+            ]
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,291 @@
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix schema: <http://schema.org/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix cds: <http://localhost:8000/court-data-definitions.jsonld#> .
+
+schema:AdministrativeArea
+    a rdfs:Class, sh:NodeShape ;
+    sh:property
+    [
+        sh:path schema:name ;
+        sh:label "name" ; 
+        sh:description "The official name of the entity being described. This may be associated with an administrative area, person, system, or a courthouse itself." ;
+        sh:minCount 1 ;
+        sh:minLength 1 ;
+        sh:datatype xsd:string ;
+    ],
+    [
+        sh:path schema:geoContains ;
+        sh:label "composing administrative area" ;
+        sh:description "The AdministrativeArea(s) contained in the AdministrativeArea being described." ;
+        sh:minLength 1 ;
+        sh:class schema:AdministrativeArea ;
+    ],
+    [
+        sh:path schema:containsPlace ;
+        sh:label "local court" ;
+        sh:description "The courthouse(s) in the AdministrativeArea. This property is only expected for the highest granularity administrative areas, i.e., the administrative areas that have no geoContains property." ;
+        sh:class cds:Courthouse ;
+    ],
+    [
+        sh:path schema:areaServed ;
+        sh:label "area served" ;
+        sh:description "Represents the geographic area served by a Courthouse or a CourtSystem. When used by a CourtSystem, the areaServed may point to one or more AdministrativeAreas to represent geographic divisions of the court, e.g., districts and circuits." ;
+        sh:class schema:AdministrativeArea ;
+    ] ;
+    sh:closed true ;
+    sh:ignoredProperties (rdf:type)
+.
+
+schema:ContactPoint
+    a rdfs:Class, sh:NodeShape ;
+    sh:property
+    [
+        sh:path schema:contactType ;
+        sh:label "contact type" ;
+        sh:description "The title or function of the service, department, or person with whom the contact information is associated." ;
+        sh:minCount 1 ;
+        sh:minLength 1 ;
+        sh:datatype xsd:string ;
+    ],
+    [
+        sh:path schema:description ;
+        sh:label "contact name" ;
+        sh:description "The name and title of the person with whom the contact information is associated. If the number or email address leads to an automated message or a line that no one person is responsible for answering the value “NA” must be entered." ;
+        sh:minCount 1 ;
+        sh:minLength 1 ;
+        sh:datatype xsd:string ;
+    ],
+    [
+        sh:path schema:telephone ;
+        sh:label "contact telephone" ;
+        sh:description "The phone number at which a person, service, or department associated with the courthouse may be reached. It must be expressed in ten-digit format with the area code enclosed in parentheses, a whitespace between the area code and first group of digits, and a dash between the second and third group of digits." ;
+        sh:minLength 10 ;
+        sh:datatype xsd:string ;
+        sh:pattern "^[\\(\\d{3}\\)]*\\s[(\\d{3})\\-(\\d{4})]*$"
+    ],
+    [
+        sh:path schema:email ;
+        sh:label "contact email" ;
+        sh:description "The email address at which a person, service or department associated with the courthouse may be reached." ;
+        sh:minLength 5;
+        sh:datatype xsd:string ;
+        sh:pattern "^[a-zA-Z0-9@.\\-?\\_?]*$" ;
+    ] ;
+    sh:closed true ;
+    sh:ignoredProperties (rdf:type) ;
+.   
+
+cds:Courthouse
+    a rdfs:Class, sh:NodeShape ;
+    sh:property
+    [
+        sh:path schema:areaServed ;
+        sh:label "area served" ;
+        sh:description "Represents the geographic area served by a Courthouse or a CourtSystem. When used by a CourtSystem, the areaServed may point to one or more AdministrativeAreas to represent geographic divisions of the court, e.g., districts and circuits." ;
+        sh:class schema:AdministrativeArea ;
+    ],
+    [
+        sh:path schema:conditionsOfAccess ;
+        sh:label "conditions of access" ;
+        sh:description "A list of items required for entry to a court or courthouse (such as identification) and items prohibited from being carried into the court or courthouse (such as cell phones or cameras). The first element of a list of required items must be &quot;required&quot; while the first element of a list of prohibited items must be &quot;prohibited&quot;. Required and prohibited items should be recorded in the same instance of this property." ;
+        sh:datatype xsd:string ;
+    ],
+    [
+        sh:path schema:contactPoint ;
+        sh:label "contact point" ;
+        sh:description "A telephone number and/or email address at which courthouse staff or resources may be reached by members of the public." ;
+        sh:class schema:ContactPoint ;
+    ],
+    [
+        sh:path schema:hasOfferCatalog ;
+        sh:label "has amenities" ;
+        sh:description "An indicator that a courthouse offers amenities to the public, such as free wifi, restrooms, etc." ;
+        sh:class schema:OfferCatalog ;
+    ],
+    [
+        sh:path schema:image ;
+        sh:label "image of courthouse" ;
+        sh:description "A URL leading to an image of the courthouse, if available." ;
+        sh:datatype xsd:string ;
+    ],
+    [
+        sh:path schema:knowsAbout ;
+        sh:label "matters served" ;
+        sh:description "A list indicating the types of cases heard by a court or generally within a courthouse." ;
+        sh:datatype xsd:string ; 
+    ],
+    [
+        sh:path schema:knowsLanguage ;
+        sh:label "languages spoken" ;
+        sh:description "The language orAlanguages spoken or that may be accommodated at the courthouse. Languages must be expressed with ISO 639-1 compliant two-character codes. If multiple languages are accommodated, they should be recorded as a list with a comma and whitespace separating languages." ;
+        sh:datatype xsd:string ;
+    ],
+    [
+        sh:path schema:location ;
+        sh:label "location" ;
+        sh:description "Information about the courthouse including physical address, operating hours, and a map." ;
+        sh:class schema:Place ;
+    ],
+    [
+        sh:path schema:name ;
+        sh:label "name" ;
+        sh:description "The official name of the entity being described. This may be associated with an administrative area, person, system, or a courthouse itself." ;
+        sh:datatype xsd:string ;
+    ],
+    [
+        sh:path schema:publicAccess ;
+        sh:label "open to public" ;
+        sh:description "Indicates whether a court or courthouse is accessible to members of the public who do not have official business (e.g., observers of a proceeding or members of the press). Values for this property must be either 'True' or 'False'." ;
+        sh:datatype xsd:boolean ;
+    ],
+    [
+        sh:path schema:subOrganization ;
+        sh:label "court" ;
+        sh:description "Records information about courts located within a courthouse such as hours of operation, court-specific contact information, and matters served." ;
+        sh:class cds:Courthouse ;
+    ],
+    [
+        sh:path schema:url ;
+        sh:label "court webpage" ;
+        sh:description "A URL to the webpage of the court or courthouse." ;
+        sh:datatype xsd:string ;
+    ] ;
+    sh:closed true ;
+    sh:ignoredProperties (rdf:type) ;
+.
+
+cds:CourtSystem
+    a rdfs:Class, sh:NodeShape ;
+    sh:property
+    [
+        sh:path schema:name ;
+        sh:label "name" ; 
+        sh:description "The official name of the entity being described. This may be associated with an administrative area, person, system, or a courthouse itself." ;
+        sh:minCount 1 ;
+        sh:minLength 1 ;
+        sh:datatype xsd:string ;
+    ],
+    [
+        sh:path schema:areaServed ;
+        sh:label "area served" ;
+        sh:description "Represents the geographic area served by a Courthouse or a CourtSystem. When used by a CourtSystem, the areaServed may point to one or more AdministrativeAreas to represent geographic divisions of the court, e.g., districts and circuits." ;
+        sh:minCount 1 ;
+        sh:minLength 1 ;
+        sh:class schema:AdministrativeArea ;
+    ] ;
+    sh:closed true ;
+    sh:ignoredProperties (rdf:type) ;
+.
+
+schema:OfferCatalog
+    a rdfs:Class, sh:NodeShape ;
+    sh:property
+    [
+        sh:path schema:itemListElement ;
+        sh:label "amenities offered" ;
+        sh:description "A list of amenities offered to the public at the courthouse. Each amenity should be separated by a comma and whitespace." ;
+        sh:datatype xsd:string ;
+    ];
+    sh:closed true ;
+    sh:ignoredProperties (rdf:type) ;
+.
+
+schema:OpeningHoursSpecification
+    a rdfs:Class, sh:NodeShape ; 
+    sh:property
+    [
+        sh:path schema:opens ;
+        sh:label "open time" ;
+        sh:description "The time at which the courthouse opens to the public. Please record in four-digit, 24-hour format separating hours and minutes with a colon (e.g., 09:30)." ;
+        sh:minCount 1 ;
+        sh:minLength 5 ;
+        sh:datatype xsd:string ;
+        sh:pattern "^(([0-1][0-9]|2[0-3]):[0-5][0-9]-([0-1][0-9]|2[0-3]):[0-5][0-9])$" ;
+    ],
+    [
+        sh:path schema:closes ;
+        sh: "close time" ;
+        sh:description "The time at which the courthouse closes to the public. Please record in four-digit, 24-hour format separating hours and minutes with a colon (e.g., 16:30)." ;
+        sh:datatype xsd:string ;
+        sh:pattern "^(([0-1][0-9]|2[0-3]):[0-5][0-9]-([0-1][0-9]|2[0-3]):[0-5][0-9])?" ;
+    ],
+    [
+        sh:path schema:dayOfWeek ;
+        sh:label "days" ;
+        sh:description "The days of the week during which the courthouse is open to the public. Please record as a list surrounded by square brackets with each day separated by a comma with no whitespace and surrounded by double quotes. Please use the full name of each day without abbreviation (e.g., [&quot;Monday&quot;,&quot;Tuesday&quot;,&quot;Wednesday&quot;,&quot;Thursday&quot;,&quot;Friday&quot;])." ;
+        sh:minCount 1 ;
+        sh:minLength 6 ;
+        sh:datatype xsd:string ;
+        sh:pattern "^[\b(Monday)\b]*|[\b(Tuesday)\b]*|[\b(Wednesday)\b]*|[\b(Thursday)\b]*|[[\b(Friday)\b]*|[\b(Saturday)\b]*|[\b(Sunday)\b]*&quot;\\,\\[\\]]$"
+    ] ;
+    sh:closed true ;
+    sh:ignoredProperties (rdf:type) ;
+.
+
+schema:Place
+    a rdfs:Class, sh:NodeShape ;
+    sh:property
+    [
+        sh:path schema:address ;
+        sh:label "address" ;
+        sh:description "The physical address of the courthouse. If the courthouse has a separate mailing address, this should be the address that represents the location of the courthouse itself." ;
+        sh:class schema:PostalAddress ;
+    ],
+    [
+        sh:path schema:openingHoursSpecification ;
+        sh:label "hours of operation" ;
+        sh:description "The days and times during which the courthouse is open to the public." ;
+        sh:class schema:OpeningHoursSpecification
+    ],
+    [
+        sh:path schema:hasMap ;
+        sh:label "map information" ;
+        sh:description "A URL leading to a map of the location of the courthouse." ;
+        sh:datatype xsd:string ;
+    ] ;
+    sh:closed true ;
+    sh:ignoredProperties (rdf:type) ;
+.
+
+schema:PostalAddress
+    a rdfs:Class, sh:NodeShape ; 
+    sh:property
+    [
+        sh:path schema:streetAddress ;
+        sh:label "street address" ;
+        sh:description "The street component of the courthouse's address (e.g., 123 Main Street)." ;
+        sh:minCount 1 ;
+        sh:minLength 1 ;
+        sh:datatype xsd:string ;
+    ],
+    [
+        sh:path schema:addressLocality ;
+        sh:label "city" ;
+        sh:description "The city component of the courthouse's address (e.g., Minneapolis)." ;
+        sh:minCount 1 ;
+        sh:minLength 1 ;
+        sh:datatype xsd:string ;
+    ],
+    [
+        sh:path schema:addressRegion ;
+        sh:label "state" ;
+        sh:description "The state component of the courthouse's address expressed as a two-letter abbreviation (e.g., MN)." ;
+        sh:minCount 1 ;
+        sh:minLength 2 ;
+        sh:maxLength 2 ;
+        sh:datatype xsd:string ;
+    ],
+    [
+        sh:path schema:postalCode ;
+        sh:label "zip code" ;
+        sh:description "The zip code component of the courthouse's address (e.g., 55401). At minimum, this value should be five digits in length." ;
+        sh:minCount 1 ;
+        sh:minLength 5 ;
+        sh:datatype xsd:string ;
+    ] ;
+    sh:closed true ;
+    sh:ignoredProperties (rdf:type) ;
+.
