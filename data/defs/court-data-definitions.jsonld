@@ -5,7 +5,7 @@
         "schema": "https://schema.org/",
         "sh": "http://www.w3.org/ns/shacl#",
         "xsd": "http://www.w3.org/2001/XMLSchema#",
-        "cds": "http://localhost:8000/court-data-definitions.jsonld#"
+        "cds": "http://localhost:8000/data/defs/court-data-definitions.jsonld#"
     },
     "@graph": [
         {

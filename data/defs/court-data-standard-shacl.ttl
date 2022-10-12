@@ -3,7 +3,7 @@
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix schema: <http://schema.org/> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
-@prefix cds: <http://localhost:8000/court-data-definitions.jsonld#> .
+@prefix cds: <http://localhost:8000/data/defs/court-data-definitions.jsonld#> .
 
 schema:AdministrativeArea
     a rdfs:Class, sh:NodeShape ;
