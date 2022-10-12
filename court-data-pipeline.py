@@ -16,7 +16,6 @@ import sqlite3
 # SCRAPE PROVIDED WEBPAGES #
 
 ### dev ###
-
 # clear destination dir
 files = glob.glob("/data/raw_json/*")
 for file in files:
@@ -24,11 +23,12 @@ for file in files:
 
 # use local files
 dev_sites = glob.glob("data/sites/*/*.html")
-
 ### /dev ###
+
 
 # list of sites to scrape
 sites = dev_sites
+
 class JsonSpider(scrapy.Spider):
     
     """ 
@@ -98,13 +98,12 @@ process.start()
 # VALIDATE SCRAPED DATA #
 
 ### dev ### 
-
 # clear destination dir
 files = glob.glob("data/valid_json/*")
 for file in files:
-    os.remove(file)
-    
+    os.remove(file)    
 ### /dev ###
+
 
 # scraped JSON-LD files 
 scraped_json_files = glob.glob("data/raw_json/*")
@@ -157,23 +156,19 @@ def validate_json(scraped_json_files, shacl_file):
 
 validate_json(scraped_json_files, shacl_file)
 
+
 # IMPORT GRAPHS INTO DATASTORE #
 
 ### dev ###
-
 db0 = "./data/db/court_data.db"
 if os.path.exists(db0):
     os.remove(db0)
 ### dev ###    
 
+
 valid_json_files = glob.glob("data/valid_json/*.json")
 db =f"sqlite:///{db0}"
 
-
-
-
-# registerplugins()
-# store = plugin.get("SQLAlchemy", Store)(identifier="court_data")
 graph = Graph("SQLAlchemy", identifier='court_data')
 
 graph.open(db, create=True)
