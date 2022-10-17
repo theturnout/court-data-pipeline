@@ -1,24 +1,24 @@
-import glob
+import sys
 import os
 import regex as re
 import json
+import csv
 import requests
 import datetime
+import glob
 from dotenv import load_dotenv
 import scrapy
 from scrapy.crawler import CrawlerProcess
 from pyshacl import validate
-from rdflib import plugin
 from rdflib.graph import Graph
-from rdflib.store import Store
-from rdflib_sqlalchemy import registerplugins
 import sqlite3
 
 # load environmental variables
 load_dotenv()
 DB = os.getenv("DB_LOC") + "court-data.db"
 
-# SCRAPE PROVIDED WEBPAGES #
+
+# SCRAPE WEBPAGES PROVIDED IN CSV #
 
 ### dev ###
 # clear destination dir
@@ -27,12 +27,12 @@ for file in files:
     os.remove(file)
 
 # use local files
-dev_sites = glob.glob("data/sites/*/*.html")
+# dev_sites = glob.glob("data/sites/*/*.html")
 ### /dev ###
 
 
 # list of sites to scrape
-sites = dev_sites
+# sites = dev_sites
 
 class JsonSpider(scrapy.Spider):
     
@@ -43,11 +43,18 @@ class JsonSpider(scrapy.Spider):
     """
 
     name = "court-data-spider"
+    
 
     def start_requests(self):
           
-        global sites
-        
+        # load sites from csv provided as argument
+        urls = sys.argv[1]
+        sites = []
+
+        with open("data/sites/websites.csv", 'r') as f:
+            reader = csv.reader(f)
+            sites = [el for sub in list(reader) for el in sub]
+
         # GET request, pass res to parse()
         for url in sites:
             yield scrapy.Request(url=f"http://localhost:8000/{url}", callback=self.parse)
