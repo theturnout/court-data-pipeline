@@ -1,17 +1,22 @@
-import scrapy
-from scrapy.crawler import CrawlerProcess
-from pyshacl import validate
 import glob
 import os
 import regex as re
 import json
 import requests
 import datetime
+from dotenv import load_dotenv
+import scrapy
+from scrapy.crawler import CrawlerProcess
+from pyshacl import validate
 from rdflib import plugin
 from rdflib.graph import Graph
 from rdflib.store import Store
 from rdflib_sqlalchemy import registerplugins
 import sqlite3
+
+# load environmental variables
+load_dotenv()
+DB = os.getenv("DB_LOC") + "court-data.db"
 
 # SCRAPE PROVIDED WEBPAGES #
 
@@ -86,6 +91,7 @@ class JsonSpider(scrapy.Spider):
 
 process = CrawlerProcess(
     # requests throttled due to limitations of python http.server
+    # this should not be necessary in production
     settings = {
         "DOWNLOAD_DELAY": 1,
         "CONCURRENT_REQUESTS_PER_DOMAIN": 10
@@ -94,6 +100,7 @@ process = CrawlerProcess(
 
 process.crawl(JsonSpider)
 process.start()
+
 
 # VALIDATE SCRAPED DATA #
 
@@ -160,19 +167,16 @@ validate_json(scraped_json_files, shacl_file)
 # IMPORT GRAPHS INTO DATASTORE #
 
 ### dev ###
-db0 = "./data/db/court_data.db"
-if os.path.exists(db0):
-    os.remove(db0)
+if os.path.exists(DB):
+    os.remove(DB)
 ### dev ###    
 
 
 valid_json_files = glob.glob("data/valid_json/*.json")
-db =f"sqlite:///{db0}"
+conn =f"sqlite:///{DB}"
 
 graph = Graph("SQLAlchemy", identifier='court_data')
-
-graph.open(db, create=True)
-
+graph.open(conn, create=True)
 
 for file in valid_json_files: 
     graph.parse(file, format="json-ld")
@@ -183,5 +187,3 @@ for subject, predicate, object_ in result:
     print(subject, predicate, object_)
 
 graph.close()
-
-

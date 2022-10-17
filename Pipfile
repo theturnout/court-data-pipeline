@@ -12,6 +12,7 @@ pyshacl="*"
 requests = "*"
 rdflib = "*"
 rdflib-sqlalchemy = "*"
+python-dotenv = "*"
 
 [dev-packages]
 

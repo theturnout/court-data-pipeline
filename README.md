@@ -13,27 +13,33 @@ The tool scrapes JSON-LD data from court websites, validates it against a SHACL 
 - pipenv >= 2022.10.11
 
 
-## Setting up the environment
+## Setting Up the Environment
 
-1. Create a virtual environment with `pipenv` and install dependencies
+1. Create a virtual environment with `pipenv` and install dependencies by executing the following commands in a terminal or command prompt window.
+   
+  `pipenv sync`  
+  `pipenv shell`
   
-  `pipenv shell`  
-  `pipenv sync`
+2. Create a `.env` file and define a variable that indicates the location in which the database will be stored. The file should contain the following.
+
+```
+DB_LOC = "/path/to/database.db"
+``` 
+  
+## Running the Script
+1. Start a local server. It will serve the contents of the current directory on Port 8000. The contents of the definition files are accessed via HTTP and so validation will fail if they cannot be reached.
+  
+ `pipenv run python http.server`
   
   
-2. Start local server. It will serve the contents of the current directory on Port 8000.
-  
-  `pipenv run python simple_server_cors.py`  
-  or  
-  `pipenv run python simple_server_cors.py`
-  
-  
-3. In a terminal window, execute the following command to run the script:
+2. Execute the following command to run the script.
 
 	`pipenv run python court-data-pipeline.py`
 
 
-For development purposes, a Jupyter Notebook is also included in the repo. Start the Jupyter server and navigate to localhost in a browser window.
+For development purposes, a Jupyter Notebook is also included in the repo. **This is for development only** and the `.py` script should be used as the default method of interacting with the pipeline. While both files should be kept in parity, the `.py` script always supersedes the notebook. 
+
+The `.ipynb` file is located in the `scripts/` directory. To view the notebook, start a Jupyter server with the commands below and navigate to localhost in a browser window. This should be done within the virtual environment.
 
 `jupyter lab`  
 or  
