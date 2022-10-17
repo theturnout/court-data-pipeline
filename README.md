@@ -27,14 +27,14 @@ DB_LOC = "/path/to/database.db"
 ``` 
   
 ## Running the Script
-1. Start a local server. It will serve the contents of the current directory on Port 8000. The contents of the definition files are accessed via HTTP and so validation will fail if they cannot be reached.
+1. Start a local server. It will serve the contents of the current directory on Port 8000. The contents of the definition files are accessed via HTTP so validation will fail if they cannot be reached.
   
  `pipenv run python http.server`
   
   
-2. Execute the following command to run the script.
+2. Webpages to be scraped are provided to the script by passing a CSV file as an argument when executing the `.py` file. The location of the CSV file does not matter as long as the path in argument is valid. Execute the following command to run the script.
 
-	`pipenv run python court-data-pipeline.py`
+	`pipenv run python court-data-pipeline.py "./data/sites/websites.csv"`
 
 
 For development purposes, a Jupyter Notebook is also included in the repo. **This is for development only** and the `.py` script should be used as the default method of interacting with the pipeline. While both files should be kept in parity, the `.py` script always supersedes the notebook. 
