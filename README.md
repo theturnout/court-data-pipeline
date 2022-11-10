@@ -29,15 +29,24 @@ DB_LOC = "/path/to/database.db"
 ## Running the Script
 1. Start a local server. It will serve the contents of the current directory on Port 8000. The contents of the definition files are accessed via HTTP so validation will fail if they cannot be reached.
   
- `pipenv run python http.server`
-  
-  
-2. Webpages to be scraped are provided to the script by passing a CSV file as an argument when executing the `.py` file. The location of the CSV file does not matter as long as the path in argument is valid. Execute the following command to run the script.
-
-	`pipenv run python court-data-pipeline.py "./data/sites/websites.csv"`
+`pipenv run python http.server`
 
 
-For development purposes, a Jupyter Notebook is also included in the repo. **This is for development only** and the `.py` script should be used as the default method of interacting with the pipeline. While both files should be kept in parity, the `.py` script always supersedes the notebook. 
+2. Webpages to be scraped are provided to the script by passing a CSV file as an argument when executing the `.py` file. The location of the CSV file does not matter as long as the path in the argument is valid. Execute the following command to run the script.
+
+`pipenv run python scraper.py "./data/sites/websites.csv"`
+
+
+3. Execute the validation script with the following command.
+
+`pipenv run python validator.py`
+
+
+4. Import the validated JSON files with the following command.
+
+`pipenv run python db-importer.py`
+
+For development purposes, a Jupyter Notebook is also included in the repo. **This is for development only** and the `.py` scripts should be used as the default methods of interacting with the pipeline. While all files should be kept in parity, the `.py` scripts always supersede the notebook. 
 
 The `.ipynb` file is located in the `scripts/` directory. To view the notebook, start a Jupyter server with the commands below and navigate to localhost in a browser window. This should be done within the virtual environment.
 
