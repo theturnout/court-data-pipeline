@@ -29,7 +29,7 @@ DB_LOC = "/path/to/database.db"
 ## Running the Script
 1. Start a local server. It will serve the contents of the current directory on Port 8000. The contents of the definition files are accessed via HTTP so validation will fail if they cannot be reached.
   
-`pipenv run python http.server`
+`pipenv run python -m http.server`
 
 
 2. Webpages to be scraped are provided to the script by passing a CSV file as an argument when executing the `.py` file. The location of the CSV file does not matter as long as the path in the argument is valid. Execute the following command to run the script.

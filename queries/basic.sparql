@@ -1,0 +1,11 @@
+SELECT DISTINCT ?ch ?o ?p WHERE {
+  ?ch ?o ?p.
+  {
+    SELECT ?ch WHERE {
+      ?ch schema:location ?loc.
+      ?loc schema:address ?addr.
+      ?addr schema:addressRegion ?state.
+      FILTER(?state IN("IL", "CA"))
+    }
+  }
+}
