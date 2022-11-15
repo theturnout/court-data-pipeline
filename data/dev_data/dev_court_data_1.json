@@ -1,0 +1,62 @@
+[
+    {
+        "@context": ["http://localhost:8000/court-data-definitions.jsonld","http://schema.org"],
+        "@id": "http://www.illinoiscourts.gov/Circuit",
+        "@type":"http://localhost:8000/court-data-definitions.jsonld#CourtSystem",
+        "name": "State of Illinois Circuit Court",
+        "areaServed": {
+            "@context": "http://schema.org/",
+            "@id": "http://www.illinoiscourts.gov/Circuit#Circuit1",
+            "@type": "http://schema.org/AdministrativeArea",
+            "name": "State of Illinois Circuit 1",
+            "areaServed": {
+                "@id": "http://www.illinoiscourts.gov/Circuit#Circuit1District1",
+                "@type": "http://schema.org/AdministrativeArea",
+                "name": "State of Illinois Circuit 1 District 1"
+            }
+        }
+    },
+    {
+        "@context":["http://localhost:8000/court-data-definitions.jsonld","http://schema.org"],
+        "@id": "https://www.illinoiscourts.gov/courts-directory/75/Clark-County-Fifth-Municipal-District--Clark-County/court/",
+        "@type": "http://localhost:8000/court-data-definitions.jsonld#Courthouse",
+        "areaServed": {
+            "@context": "http://schema.org/",
+            "@id": "http://www.illinoiscourts.gov/District2/ClarkCounty",
+            "@type": "http://schema.org/AdministrativeArea",
+            "name": "Clark County - Rockville"
+        },
+        "conditionsOfAccess": "required, guns, prohibited, children",
+        "contactPoint": {
+            "@context": "http://schema.org/",
+            "@type": "http://schema.org/ContactPoint",
+            "contactType":"Clork",
+            "description":"Clirk Clark",
+            "telephone":"(541) 954-6987",
+            "email":"clark.clirk@courts.gov"
+        },
+        "knowsAbout":"bird law",
+        "knowsLanguage":"en, es",
+        "location": {
+            "@context":"http://schema.org/",
+            "@type":"http://schema.org/Place",
+            "address": {
+                "@type":"http://schema.org/PostalAddress",
+                "streetAddress": "487 Rhode Island Ave",
+                "addressLocality": "Branson",
+                "addressRegion": "IL",
+                "postalCode": "67459"
+            },
+            "openingHoursSpecification": {
+                "@context": "http://schema.org/",
+                "@type":"http://schema.org/OpeningHoursSpecification",
+                "opens":"09:30-08:00",
+                "closes":"16:30-08:00",
+                "dayOfWeek":"[Tuesday,Wednesday,Thursday,Friday]"
+            }
+        },
+        "name": "Clark County - Rockville",
+        "publicAccess": false,
+        "url": { "@value":"http://www.illinoiscourts.gov/District2/ClarklCounty#website" }
+    }
+]
