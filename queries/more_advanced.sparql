@@ -1,0 +1,26 @@
+PREFIX schema: <http://schema.org/>
+prefix cds: <http://localhost:8000/court-data-definitions.jsonld#> 
+CONSTRUCT {
+  ?ch ?o ?p; schema:location ?loc.
+  ?co ?cpp ?cpo. ?aa ?aap ?aao.
+  ?addr ?addrProp ?addrValue.
+  ?loc ?lop ?loo.
+  ?sp ?spp ?spo.
+  ?area ?aop ?aoo.
+} 
+	WHERE {
+      # all subjects ch must be Courthouse
+      ?ch a cds:Courthouse.
+      #saving for later
+      ?ch ?o ?p; schema:location ?loc.
+  	  ?loc ?lop ?loo; schema:address ?addr.
+      # allows us to pull address props in the CONSTRUCT clause
+      ?addr ?addrProp ?addrValue ; schema:addressRegion ?state.
+      FILTER(?state IN("IL"))
+      OPTIONAL {?ch schema:contactPoint ?co. ?co ?cpp ?cpo.}
+  	  OPTIONAL {?ch schema:areaServed ?aa. ?aa ?aap ?aao.}
+      OPTIONAL {?loc schema:openingHoursSpecification ?sp. ?sp ?spp ?spo.}
+      #OPTIONAL {?ch schema:subOrganization ?ch. }
+      #Get related districts, and walk tree
+      OPTIONAL {?ch schema:areaServed ?area. ?area ?aop ?aoo.}
+    }
