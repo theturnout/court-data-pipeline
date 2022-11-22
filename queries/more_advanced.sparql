@@ -1,26 +1,31 @@
 PREFIX schema: <http://schema.org/>
 prefix cds: <http://localhost:8000/court-data-definitions.jsonld#> 
 CONSTRUCT {
-  ?ch ?o ?p; schema:location ?loc.
+  # retrieve all triples under courthouse
+  ?ch ?o ?p.
+  # contactPoint / areaServed
   ?co ?cpp ?cpo. ?aa ?aap ?aao.
+  # address
   ?addr ?addrProp ?addrValue.
+  # location
   ?loc ?lop ?loo.
+  # openingHoursSpecification
   ?sp ?spp ?spo.
+  # areaServed
   ?area ?aop ?aoo.
+  # hasOfferCatalog  
+  ?hoc ?hop ?hoo.
 } 
 	WHERE {
       # all subjects ch must be Courthouse
-      ?ch a cds:Courthouse.
-      #saving for later
+      ?ch a cds:Courthouse.      
       ?ch ?o ?p; schema:location ?loc.
-  	  ?loc ?lop ?loo; schema:address ?addr.
-      # allows us to pull address props in the CONSTRUCT clause
+  	  ?loc ?lop ?loo; schema:address ?addr.      
       ?addr ?addrProp ?addrValue ; schema:addressRegion ?state.
-      FILTER(?state IN("IL"))
+      FILTER(?state IN("CA"))
+      OPTIONAL {?ch schema:hasOfferCatalog ?hoc. ?hoc ?hop ?hoo. }
       OPTIONAL {?ch schema:contactPoint ?co. ?co ?cpp ?cpo.}
   	  OPTIONAL {?ch schema:areaServed ?aa. ?aa ?aap ?aao.}
-      OPTIONAL {?loc schema:openingHoursSpecification ?sp. ?sp ?spp ?spo.}
-      #OPTIONAL {?ch schema:subOrganization ?ch. }
-      #Get related districts, and walk tree
+      OPTIONAL {?loc schema:openingHoursSpecification ?sp. ?sp ?spp ?spo.}            
       OPTIONAL {?ch schema:areaServed ?area. ?area ?aop ?aoo.}
     }
