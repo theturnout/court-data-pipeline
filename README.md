@@ -23,7 +23,7 @@ The tool scrapes JSON-LD data from court websites, validates it against a SHACL 
 2. Create a `.env` file and define a variable that indicates the location in which the database will be stored. The file should contain the following.
 
 ```
-DB_LOC = "/path/to/database.db"
+DB_LOC = "/path/to/database"
 ``` 
   
 ## Running the Script
