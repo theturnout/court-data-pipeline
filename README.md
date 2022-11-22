@@ -23,13 +23,13 @@ The tool scrapes JSON-LD data from court websites, validates it against a SHACL 
 2. Create a `.env` file and define a variable that indicates the location in which the database will be stored. The file should contain the following.
 
 ```
-DB_LOC = "/path/to/database.db"
+DB_LOC = "/path/to/database_dir/"
 ``` 
   
 ## Running the Script
 1. Start a local server. It will serve the contents of the current directory on Port 8000. The contents of the definition files are accessed via HTTP so validation will fail if they cannot be reached.
   
-`pipenv run python http.server`
+`pipenv run python -m http.server`
 
 
 2. Webpages to be scraped are provided to the script by passing a CSV file as an argument when executing the `.py` file. The location of the CSV file does not matter as long as the path in the argument is valid. Execute the following command to run the script.
