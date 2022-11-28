@@ -146,8 +146,6 @@ cds:Courthouse
         sh:description "A URL to the webpage of the court or courthouse." ;
         sh:datatype xsd:string ;
     ] ;
-    sh:closed true ;
-    sh:ignoredProperties (rdf:type) ;
 .
 
 cds:CourtSystem

@@ -40,7 +40,7 @@
                     "image": { 
                         "@value":"https://www.cookcountycourt.org/portals/0/courthouse/" 
                     },
-                    "mattersServed":"criminal, civil, family, traffic",
+                    "cds:mattersServed":"criminal, civil, family, traffic",
                     "knowsLanguage":"en, es",
                     "location": {
                         "@context":"http://schema.org/",
@@ -95,7 +95,10 @@
                                 "dayOfWeek":"[Tuesday,Wednesday,Thursday]"
                             }
                         },
-                        "mattersServed":"criminal",
+                        "mattersServed":{
+                            "@context": "http://localhost:8000/data/defs/court-data-definitions.jsonld",
+                            "@value": "criminal"
+                        },
                         "name": "Criminal Court of Clark County",
                         "publicAccess": false
                     },

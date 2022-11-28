@@ -11,7 +11,7 @@ from rdflib.store import Store
 from rdflib import plugin
 
 
-def db_importer():
+def main():
     """
     Script to import validated JSON-LD data into an RDF store.
     """
@@ -54,3 +54,7 @@ def db_importer():
     graph.close()
 
     return 1
+
+
+if __name__ == "__main__":
+    main()

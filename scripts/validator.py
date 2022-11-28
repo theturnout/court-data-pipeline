@@ -64,6 +64,5 @@ def validate_json():
 
     print(*errors, sep="\n") if errors else print("All files successfully validated.")
 
-    validate_json()
 
-    return 1
+validate_json()
