@@ -1,32 +1,16 @@
-import sys
-import os
 import regex as re
 import json
 import csv
 import requests
 import datetime
-import glob
 import scrapy
-from scrapy.crawler import CrawlerProcess
 
-# SCRAPE WEBPAGES PROVIDED IN CSV #
-
-### dev ###
-# clear destination dir
-files = glob.glob("/data/raw_json/*")
-for file in files:
-    os.remove(file)
-### /dev ###
-
-
-# list of sites to scrape
-# sites = dev_sites
 
 class JsonSpider(scrapy.Spider):
 
-    """ 
+    """
     scrape .json-ld data from court websites.
-    prefer linked .json, 
+    prefer linked .json,
     scrape embedded data otherwise.
     """
 
@@ -34,8 +18,8 @@ class JsonSpider(scrapy.Spider):
 
     def start_requests(self):
 
-        # load sites from csv provided as argument
-        url_csv = sys.argv[1]
+        # load sites from csv provided as cli argument
+        url_csv = urls
         sites = []
 
         with open(url_csv, 'r') as f:
@@ -63,16 +47,17 @@ class JsonSpider(scrapy.Spider):
         if linked_json is not None:
             # follow link to json file and grab data
             req = requests.get(linked_json)
-            # to append source and date metadata below
+            # will be used to append source and date metadata below
             load_json = json.loads(req.content)
         elif embedded_json is not None:
             # parse json data from html source
             # remove whitespace that is not in a value
             embedded_json = re.sub(r'\s+[^\:\S\"]', "", embedded_json)
-            # to append source and date metadata below
+            # will be used to append source and date metadata below
             load_json = json.loads(embedded_json[1:-1])
         else:
-            return f"No valid JSON-LD data in {response.url}."
+            print(f"No valid JSON-LD data in {response.url}.")
+            return
 
         # append source and date metadata
         load_json.append(
@@ -82,16 +67,3 @@ class JsonSpider(scrapy.Spider):
         json_out = json.dumps(load_json)
         with open(f"./data/raw_json/{filename}", "w") as output:
             output.write(json_out)
-
-
-process = CrawlerProcess(
-    # requests throttled due to limitations of python http.server
-    # this should not be necessary in production
-    settings={
-        "DOWNLOAD_DELAY": 1,
-        "CONCURRENT_REQUESTS_PER_DOMAIN": 10
-    }
-)
-
-process.crawl(JsonSpider)
-process.start()
