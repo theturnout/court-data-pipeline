@@ -34,19 +34,11 @@ DB_LOC = "/path/to/database"
 
 2. Webpages to be scraped are provided to the script by passing a CSV file as an argument when executing the `.py` file. The location of the CSV file does not matter as long as the path in the argument is valid. Execute the following command to run the script.
 
-`pipenv run python scraper.py "./data/sites/websites.csv"`
+`pipenv run python cd_pipeline.py ./data/sites/websites.csv`
 
+Scripts are now executed through `cd_pipeline.py`. Though the scripts in the `scripts` folder can be run individually, it is not recommended. 
 
-3. Execute the validation script with the following command.
-
-`pipenv run python validator.py`
-
-
-4. Import the validated JSON files with the following command.
-
-`pipenv run python db-importer.py`
-
-For development purposes, a Jupyter Notebook is also included in the repo. **This is for development only** and the `.py` scripts should be used as the default methods of interacting with the pipeline. While all files should be kept in parity, the `.py` scripts always supersede the notebook. 
+For development purposes, a Jupyter Notebook is also included in the repo. **This is for development only** and the `cd_pipeline.py` script should be used as the default method of interacting with the pipeline. While all files should be kept in parity, the `.py` scripts always supersede the notebooks. 
 
 The `.ipynb` file is located in the `scripts/` directory. To view the notebook, start a Jupyter server with the commands below and navigate to localhost in a browser window. This should be done within the virtual environment.
 
