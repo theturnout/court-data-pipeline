@@ -6,7 +6,7 @@ The Pew Charitable Trusts' civil legal modernization project seeks to make civil
 
 ## Overview
 
-The tool scrapes JSON-LD data from court websites, validates it against a SHACL schema, and stores the linked data as triples in a database. Web scraping is done using Scrapy, validation with pyshacl, and storage with SQLAlchemy and sqlite. The standard vocabulary is provided by Schema.org and is supplemented with extensions developed for this project.
+The tool scrapes JSON-LD data from court websites, validates it against a SHACL schema, and stores the linked data as triples in a database. Web scraping is done using Scrapy, validation with pyshacl, and storage with oxrdflib. The standard vocabulary is provided by Schema.org and is supplemented with extensions developed for this project.
 
 ## Requirements
 - Python >= 3.10
@@ -20,7 +20,7 @@ The tool scrapes JSON-LD data from court websites, validates it against a SHACL 
   `pipenv sync`  
   `pipenv shell`
   
-2. Create a `.env` file and define a variable that indicates the location in which the database will be stored. The file should contain the following.
+2. Create a `.env` file and define a variable that indicates the location in which the database (directory) will be stored. The file should contain the following.
 
 ```
 DB_LOC = "/path/to/database"
