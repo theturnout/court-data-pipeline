@@ -37,11 +37,3 @@ DB_LOC = "/path/to/database"
 `pipenv run python cd_pipeline.py ./data/sites/websites.csv`
 
 Scripts are now executed through `cd_pipeline.py`. Though the scripts in the `scripts` folder can be run individually, it is not recommended. 
-
-For development purposes, a Jupyter Notebook is also included in the repo. **This is for development only** and the `cd_pipeline.py` script should be used as the default method of interacting with the pipeline. While all files should be kept in parity, the `.py` scripts always supersede the notebooks. 
-
-The `.ipynb` file is located in the `scripts/` directory. To view the notebook, start a Jupyter server with the commands below and navigate to localhost in a browser window. This should be done within the virtual environment.
-
-`jupyter lab`  
-or  
-`jupyter notebook`
