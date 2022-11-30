@@ -25,11 +25,11 @@ def main():
     # connect to db
     graph.open(DB)
 
-    with open('../queries/more_advanced.sparql') as qf:
+    with open('./queries/more_advanced.sparql') as qf:
         qt = qf.read()
     qr = graph.query(qt)
 
-    to_isomorphic(qr).serialize('../data/query_result.json', format='json-ld')
+    to_isomorphic(qr).serialize('./data/query_result.json', format='json-ld')
 
     graph.close()
 
