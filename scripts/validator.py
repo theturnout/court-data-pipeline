@@ -24,6 +24,8 @@ def validator():
     # collect errors to display on exit
     errors = []
 
+    print("Starting file validation.")
+
     for file in scraped_json_files:
         try:
             r = validate(file,

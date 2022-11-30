@@ -17,7 +17,7 @@ def db_importer():
     valid_json_files = glob.glob("data/valid_json/*.json")
 
     if len(valid_json_files) == 0:
-        print("No files provided to importers. Exiting script.")
+        print("No files provided to importer. Exiting script.")
         return
 
     # configure dialect/engine

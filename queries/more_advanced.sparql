@@ -23,7 +23,7 @@ CONSTRUCT {
       ?ch ?o ?p; schema:location ?loc.
   	  ?loc ?lop ?loo; schema:address ?addr.      
       ?addr ?addrProp ?addrValue ; schema:addressRegion ?state.
-      #FILTER(?state IN("IL"))
+      FILTER(?state IN("CA"))
       OPTIONAL {?ch schema:hasOfferCatalog ?hoc. ?hoc ?hop ?hoo. }
       OPTIONAL {?ch schema:contactPoint ?co. ?co ?cpp ?cpo.}
   	  OPTIONAL {?ch schema:areaServed ?aa. ?aa ?aap ?aao.}
