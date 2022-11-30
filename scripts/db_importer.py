@@ -6,28 +6,34 @@ import sqlite3
 
 # IMPORT GRAPHS INTO DATASTORE #
 
-# load environmental variables
-load_dotenv()
-DB = os.getenv("DB_LOC") + "court-data.db"
 
-### dev ###
-if os.path.exists(DB):
-    os.remove(DB)
-### dev ###    
+def db_importer():
+    """
+    Import validated JSON-LD data in RDF datastore
+    """
+    # load environmental variables
+    load_dotenv()
+    DB = os.getenv("DB_LOC") + "court-data.db"
 
-valid_json_files = glob.glob("data/valid_json/*.json")
-conn =f"sqlite:///{DB}"
+    valid_json_files = glob.glob("data/valid_json/*.json")
 
-graph = Graph("SQLAlchemy", identifier='court_data')
-graph.open(conn, create=True)
+    if len(valid_json_files) == 0:
+        print("No files provided to importers. Exiting script.")
+        return
 
-for file in valid_json_files: 
-    graph.parse(file, format="json-ld")
+    conn = f"sqlite:///{DB}"
 
-result = graph.query("select * where {?s ?p ?o}")
+    graph = Graph("SQLAlchemy", identifier='court_data')
+    graph.open(conn, create=True)
 
-# Testing, return all records
-for subject, predicate, object_ in result:
-    print(subject, predicate, object_)
+    for file in valid_json_files:
+        graph.parse(file, format="json-ld")
 
-graph.close()
+    # Testing, return all records
+    # result = graph.query("select * where {?s ?p ?o}")
+    # for subject, predicate, object_ in result:
+    #     print(subject, predicate, object_)
+
+    graph.close()
+
+    print("Files successfully imported to DB.\nExecute 'scripts/db_exporter.py' to export database contents to JSON-LD file.\n")

@@ -1,6 +1,6 @@
-import scripts.scraper as scraper
-import scripts.validator as validator
-import scripts.db_importer as db_importer
+import scripts.scraper
+import scripts.validator
+import scripts.db_importer
 import argparse
 
 
@@ -16,11 +16,11 @@ def main():
         print("URLs must be provided in CSV format.")
         return
 
-    scraper.main(urls)
+    scripts.scraper.scraper(urls)
 
-    validator.main()
+    scripts.validator.validator()
 
-    db_importer.main()
+    scripts.db_importer.db_importer()
 
 
 if __name__ == "__main__":

@@ -170,8 +170,6 @@ cds:CourtSystem
         sh:description "The official name of the entity being described. This may be associated with an administrative area, person, system, or a courthouse itself." ;
         sh:datatype xsd:string ;
     ] ;
-    sh:closed true ;
-    sh:ignoredProperties (rdf:type) ;
 .
 
 schema:OfferCatalog
