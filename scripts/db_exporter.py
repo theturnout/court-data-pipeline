@@ -24,16 +24,18 @@ def main():
     graph = Graph(store='Oxigraph', identifier='http://court')
     # connect to db
     graph.open(DB)
-
+    
+    # load query
     with open('./queries/more_advanced.sparql') as qf:
         qt = qf.read()
     qr = graph.query(qt)
 
     to_isomorphic(qr).serialize('./data/query_result.json', format='json-ld')
-
+    print('check ./data/query_result.json for results')
+    
     graph.close()
 
-    return 1
+    return 0
 
 
 if __name__ == "__main__":

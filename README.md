@@ -37,3 +37,5 @@ DB_LOC = "/path/to/database"
 `pipenv run python cd_pipeline.py ./data/sites/websites.csv`
 
 Scripts are now executed through `cd_pipeline.py`. Though the scripts in the `scripts` folder can be run individually, it is not recommended. 
+
+> Exports of data ingested using the pipeline can be run seperately via `./scripts/db_exporter.py`. 

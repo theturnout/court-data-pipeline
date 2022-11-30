@@ -2,7 +2,6 @@ import os
 import glob
 from dotenv import load_dotenv
 from rdflib.graph import Graph
-import sqlite3
 
 # IMPORT GRAPHS INTO DATASTORE #
 
