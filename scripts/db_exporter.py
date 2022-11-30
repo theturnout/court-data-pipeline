@@ -1,5 +1,5 @@
 """
-Imports validated JSON-LD data into an RDF datastore.
+Exports validated JSON-LD data from an RDF datastore.
 """
 
 import os
@@ -11,6 +11,7 @@ from rdflib import plugin, Namespace
 from rdflib.compare import to_isomorphic, graph_diff
 
 import logging
+
 
 def main():
     """
@@ -27,9 +28,9 @@ def main():
     with open('../queries/more_advanced.sparql') as qf:
         qt = qf.read()
     qr = graph.query(qt)
-    
+
     to_isomorphic(qr).serialize('../data/query_result.json', format='json-ld')
-        
+
     graph.close()
 
     return 1
