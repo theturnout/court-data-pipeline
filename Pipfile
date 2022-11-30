@@ -13,6 +13,7 @@ requests = "*"
 rdflib = "*"
 rdflib-sqlalchemy = "*"
 python-dotenv = "*"
+oxrdflib = "*"
 
 [dev-packages]
 
