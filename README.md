@@ -8,34 +8,36 @@ The Pew Charitable Trusts' civil legal modernization project seeks to make civil
 
 The tool scrapes JSON-LD data from court websites, validates it against a SHACL schema, and stores the linked data as triples in a database. Web scraping is done using Scrapy, validation with pyshacl, and storage with oxrdflib. The standard vocabulary is provided by Schema.org and is supplemented with extensions developed for this project.
 
+This version of the tool will ingest URLs from a CSV and scrape the websites they identify for JSON-LD data. If found, the data will be validated before being stored in an RDF triplestore. Imported data can be retrieved in JSON format by running `db_exporter.py` located in the `scripts` folder.
+
 ## Requirements
+
 - Python >= 3.10
 - pipenv >= 2022.10.11
-
 
 ## Setting Up the Environment
 
 1. Create a virtual environment with `pipenv` and install dependencies by executing the following commands in a terminal or command prompt window.
-   
-  `pipenv sync`  
-  `pipenv shell`
-  
+
+`pipenv sync`  
+ `pipenv shell`
+
 2. Create a `.env` file and define a variable that indicates the location in which the database (directory) will be stored. The file should contain the following.
 
 ```
 DB_LOC = "/path/to/database"
-``` 
-  
+```
+
 ## Running the Script
 
 1. Start a local server. It will serve the contents of the current directory on Port 8000. The contents of the definition files (under `data/defs`) are accessed via HTTP so validation will fail if they cannot be reached.
-  
+
 `pipenv run python -m http.server`
 
 2. Webpages to be scraped are provided to the script by passing a CSV file as an argument when executing the `.py` file. The location of the CSV file does not matter as long as the path in the argument is valid. Execute the following command to run the script.
 
 `pipenv run python cd_pipeline.py ./data/sites/websites.csv`
 
-Scripts are now executed through `cd_pipeline.py`. Though the scripts in the `scripts` folder can be run individually, it is not recommended. 
+Scripts are now executed through `cd_pipeline.py`. Though the scripts in the `scripts` folder can be run individually, it is not recommended.
 
-> Exports of data ingested using the pipeline can be run seperately via `./scripts/db_exporter.py`. 
+> Exports of data ingested using the pipeline can be run seperately via `./scripts/db_exporter.py`.
