@@ -17,13 +17,6 @@ schema:AdministrativeArea
         sh:datatype xsd:string ;
     ],
     [
-        sh:path schema:geoContains ;
-        sh:label "composing administrative area" ;
-        sh:description "The AdministrativeArea(s) contained in the AdministrativeArea being described." ;
-        sh:minLength 1 ;
-        sh:class schema:AdministrativeArea ;
-    ],
-    [
         sh:path schema:containsPlace ;
         sh:label "local court" ;
         sh:description "The courthouse(s) in the AdministrativeArea. This property is only expected for the highest granularity administrative areas, i.e., the administrative areas that have no geoContains property." ;
@@ -112,7 +105,7 @@ cds:Courthouse
         sh:datatype xsd:string ;
     ],
     [
-        sh:path schema:knowsAbout ;
+        sh:path cds:mattersServed ;
         sh:label "matters served" ;
         sh:description "A list indicating the types of cases heard by a court or generally within a courthouse." ;
         sh:datatype xsd:string ; 
@@ -146,38 +139,37 @@ cds:Courthouse
         sh:label "court" ;
         sh:description "Records information about courts located within a courthouse such as hours of operation, court-specific contact information, and matters served." ;
         sh:class cds:Courthouse ;
-    ],
+    ],   
     [
         sh:path schema:url ;
         sh:label "court webpage" ;
         sh:description "A URL to the webpage of the court or courthouse." ;
         sh:datatype xsd:string ;
     ] ;
-    sh:closed true ;
-    sh:ignoredProperties (rdf:type) ;
 .
 
 cds:CourtSystem
     a rdfs:Class, sh:NodeShape ;
     sh:property
     [
-        sh:path schema:name ;
-        sh:label "name" ; 
-        sh:description "The official name of the entity being described. This may be associated with an administrative area, person, system, or a courthouse itself." ;
-        sh:minCount 1 ;
-        sh:minLength 1 ;
-        sh:datatype xsd:string ;
-    ],
-    [
         sh:path schema:areaServed ;
         sh:label "area served" ;
         sh:description "Represents the geographic area served by a Courthouse or a CourtSystem. When used by a CourtSystem, the areaServed may point to one or more AdministrativeAreas to represent geographic divisions of the court, e.g., districts and circuits." ;
-        sh:minCount 1 ;
+        sh:class schema:AdministrativeArea ;
+    ],
+    [
+        sh:path schema:geoContains ;
+        sh:label "composing administrative area" ;
+        sh:description "The AdministrativeArea(s) contained in the AdministrativeArea being described." ;
         sh:minLength 1 ;
         sh:class schema:AdministrativeArea ;
+    ],
+    [
+        sh:path schema:name ;
+        sh:label "name" ; 
+        sh:description "The official name of the entity being described. This may be associated with an administrative area, person, system, or a courthouse itself." ;
+        sh:datatype xsd:string ;
     ] ;
-    sh:closed true ;
-    sh:ignoredProperties (rdf:type) ;
 .
 
 schema:OfferCatalog
@@ -199,18 +191,18 @@ schema:OpeningHoursSpecification
     [
         sh:path schema:opens ;
         sh:label "open time" ;
-        sh:description "The time at which the courthouse opens to the public. Please record in four-digit, 24-hour format separating hours and minutes with a colon (e.g., 09:30)." ;
+        sh:description "The time at which the courthouse opens to the public. Please record in four-digit, 24-hour format separating hours and minutes with a colon followed by a plus (+) or minus (-) symbol and the GMT offset indicating the timezone (e.g., 9:00 AM PST as 09:00-08:00)." ;
         sh:minCount 1 ;
         sh:minLength 5 ;
         sh:datatype xsd:string ;
-        sh:pattern "^(([0-1][0-9]|2[0-3]):[0-5][0-9]-([0-1][0-9]|2[0-3]):[0-5][0-9])$" ;
+        sh:pattern "^([0-1][0-9]:[0-5][0-9]|[2][0-3]:[0-5][0-9)])(\\+|\\-)([0-1][0-9]:[0-5][0-9]|[2][0-3]:[0-5][0-9)])$" ;
     ],
     [
         sh:path schema:closes ;
         sh: "close time" ;
-        sh:description "The time at which the courthouse closes to the public. Please record in four-digit, 24-hour format separating hours and minutes with a colon (e.g., 16:30)." ;
+        sh:description "The time at which the courthouse closes to the public. Please record in four-digit, 24-hour format separating hours and minutes with a colon followed by a plus (+) or minus (-) symbol and the GMT offset indicating the timezone (e.g., 4:00 PM EST as 16:00-05:00)." ;
         sh:datatype xsd:string ;
-        sh:pattern "^(([0-1][0-9]|2[0-3]):[0-5][0-9]-([0-1][0-9]|2[0-3]):[0-5][0-9])?" ;
+        sh:pattern "^([0-1][0-9]:[0-5][0-9]|[2][0-3]:[0-5][0-9)])(\\+|\\-)([0-1][0-9]:[0-5][0-9]|[2][0-3]:[0-5][0-9)])$" ;
     ],
     [
         sh:path schema:dayOfWeek ;
@@ -219,7 +211,7 @@ schema:OpeningHoursSpecification
         sh:minCount 1 ;
         sh:minLength 6 ;
         sh:datatype xsd:string ;
-        sh:pattern "^[\b(Monday)\b]*|[\b(Tuesday)\b]*|[\b(Wednesday)\b]*|[\b(Thursday)\b]*|[[\b(Friday)\b]*|[\b(Saturday)\b]*|[\b(Sunday)\b]*&quot;\\,\\[\\]]$"
+        sh:pattern "^[\b(Monday)\b]*|[\b(Tuesday)\b]*|[\b(Wednesday)\b]*|[\b(Thursday)\b]*|[[\b(Friday)\b]*|[\b(Saturday)\b]*|[\b(Sunday)\b]*&quot;\\,\\[\\]]$" ;
     ] ;
     sh:closed true ;
     sh:ignoredProperties (rdf:type) ;

@@ -21,6 +21,18 @@
             "rdfs:label":"CourtSystem"
         },
         {
+            "@id":"cds:mattersServed",
+            "@type":"rdf:Property",
+            "rdfs:comment":"A list indicating the types of cases heard by a court or generally within a courthouse.",
+            "rdfs:label":"matters served",
+            "schema:domainIncludes": {
+                "@id":"cds:Courthouse"
+            },
+            "schema:rangeIncludes": {
+                "@id":"xsd:string"
+            }
+        },
+        {
             "@id":"schema:areaServed",
             "@type":"rdf:Property",
             "rdfs:comment":"Represents the geographic area served by a Courthouse or a CourtSystem. When used by a CourtSystem, the areaServed may point to one or more AdministrativeAreas to represent geographic divisions of the court, e.g., districts and circuits.",
