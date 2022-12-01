@@ -1,24 +1,24 @@
 {
     "@context": ["http://localhost:8000/data/defs/court-data-definitions.jsonld","http://schema.org"],
-    "@id": "http://www.illinoiscourts.gov/Circuit",
+    "@id": "http://www.Californiacourts.gov/Circuit11",
     "@type":"http://localhost:8000/data/defs/court-data-definitions.jsonld#CourtSystem",
-    "name": "State of Illinois Circuit Court",
+    "name": "State of California Circuit Court",
     "geoContains": {
         "@context": "http://schema.org/",
-        "@id": "http://www.illinoiscourts.gov/Circuit#Circuit1",
+        "@id": "http://www.Californiacourts.gov/Circuit#Circuit111",
         "@type": "http://schema.org/AdministrativeArea",
-        "name": "State of Illinois Circuit 1",
+        "name": "State of California Circuit 1",
         "areaServed": {
-            "@id": "http://www.illinoiscourts.gov/Circuit#Circuit1District1",
+            "@id": "http://www.Californiacourts.gov/Circuit#Circuit1District111",
             "@type": "http://schema.org/AdministrativeArea",
-            "name": "State of Illinois Circuit 1 District 1",
+            "name": "State of California Circuit 1 District 1",
             "containsPlace": {
                 "@context":["http://localhost:8000/data/defs/court-data-definitions.jsonld","http://schema.org"],
-                "@id": "http://www.illinoiscourts.gov/Circuit#Circuit1District1/CookCounty",
+                "@id": "http://www.Californiacourts.gov/Circuit#Circuit1District1/CookCounty11",
                 "@type": "http://localhost:8000/data/defs/court-data-definitions.jsonld#Courthouse",
                 "areaServed": {
                     "@context": "http://schema.org/",
-                    "@id": "http://www.illinoiscourts.gov/District1/CookCounty",
+                    "@id": "http://www.Californiacourts.gov/District1/CookCounty11",
                     "@type": "http://schema.org/AdministrativeArea",
                     "name": "Cook County - Bridgeview"
                 },
@@ -59,13 +59,13 @@
                         "closes":"16:30-08:00",
                         "dayOfWeek":"[Monday,Tuesday,Wednesday,Thursday,Friday]"
                     },
-                    "hasMap":{ "@value": "http://www.illinoiscourts.gov/District1/CookCounty/map" }
+                    "hasMap":{ "@value": "http://www.Californiacourts.gov/District1/CookCounty/map" }
                 },
                 "name": "Cook County - Bridgeview",
                 "publicAccess": true,
                 "subOrganization": {
                     "@context":["http://localhost:8000/data/defs/court-data-definitions.jsonld","http://schema.org"],
-                    "@id":"http://www.illinoiscourts.gov/District1/CookCounty/Criminal",
+                    "@id":"http://www.Californiacourts.gov/District1/CookCounty/Criminal11",
                     "@type":"http://localhost:8000/data/defs/court-data-definitions.jsonld#Courthouse",
                     "contactPoint": {
                         "@context": "http://schema.org/",
@@ -99,7 +99,7 @@
                     "publicAccess": false
                 },
                 "url": { 
-                    "@value":"http://www.illinoiscourts.gov/District1/CookCounty#website" 
+                    "@value":"http://www.Californiacourts.gov/District1/CookCounty#website" 
                 }
             }
         }
