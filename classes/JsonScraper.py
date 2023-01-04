@@ -10,10 +10,12 @@ import scrapy
 
 class JsonScraper(scrapy.Spider):
 
-    def __init__(self, urls):
+    name = "court_data_spider"
+
+    def __init__(self, urls='', *args, **kwargs):
+        super(JsonScraper, self).__init__(*args, **kwargs)
         self.urls = urls
 
-    name = "court_data_spider"
     json_list = []
 
     def start_requests(self):
@@ -26,6 +28,7 @@ class JsonScraper(scrapy.Spider):
 
     def parse(self, response):
 
+        print("starting parse()")
         try:
             # look for json data.
             linked_json = response.selector.xpath(
@@ -54,9 +57,12 @@ class JsonScraper(scrapy.Spider):
             # append json_obj to json_list
             self.json_list.append(json_obj)
             print(f"{response.url} successfully scraped.")
+
         except json.JSONDecodeError:
             print(f"Bad JSON format at {response.url}. Skipping file.")
             return
+
+        # return self.json_list
 
 
 process = CrawlerProcess(

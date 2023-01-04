@@ -1,7 +1,7 @@
 import os
 from components.csv_import import csv_import
 from classes.JsonScraper import JsonScraper
-# import classes.validator
+from classes.validator import Validator
 # import classes.db_importer
 
 import argparse
@@ -30,9 +30,12 @@ def main():
 
     # crawl provided urls and scrape json-ld data if present
     scraper = JsonScraper(urls)
-    scraper.start_requests()
+
+    json_list = scraper.start_requests()
 
     # scripts.validator.validator()
+
+    Validator.validate(json_list)
 
     # scripts.db_importer.db_importer()
 
