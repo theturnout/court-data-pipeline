@@ -1,10 +1,11 @@
 import os
 from components.csv_import import csv_import
-from classes.JsonScraper import JsonScraper
+from components.data_importer import data_importer
+from scrapy.crawler import CrawlerProcess
+from classes.json_scraper import JsonScraper
 from classes.validator import Validator
-# import classes.db_importer
-
 import argparse
+from data.dev_data import json_list  # contains expected output of JsonScraper
 
 
 def main():
@@ -25,19 +26,35 @@ def main():
 
     # pipeline = csv_import -> JsonScraper -> Validator -> Db_importer -> Db_exporter
 
-    # import and parse csv
+    # # import and parse csv
     urls = csv_import(url_csv)
 
     # crawl provided urls and scrape json-ld data if present
-    scraper = JsonScraper(urls)
+    process = CrawlerProcess(
+        # requests throttled due to limitations of python http.server
+        # this should not be necessary in production
+        settings={
+            "DOWNLOAD_DELAY": 1,
+            "CONCURRENT_REQUESTS_PER_DOMAIN": 10,
+            "LOG_LEVEL": "ERROR",
+            "DOWNLOAD_HANDLERS": {
+                "http": "scrapy_playwright.handler.ScrapyPlaywrightDownloadHandler",
+                "https": "scrapy_playwright.handler.ScrapyPlaywrightDownloadHandler",
+            },
+            "TWISTED_REACTOR": "twisted.internet.asyncioreactor.AsyncioSelectorReactor"
+        }
+    )
 
-    json_list = scraper.start_requests()
+    process.crawl(JsonScraper, urls=urls)
+    process.start()
 
-    # scripts.validator.validator()
+    # Validate files
 
-    Validator.validate(json_list)
+    validated_files = Validator(json_list)
+    valid_json = validated_files.validate_json()
 
-    # scripts.db_importer.db_importer()
+    # Import records to DB
+    data_importer(valid_json)
 
 
 if __name__ == "__main__":

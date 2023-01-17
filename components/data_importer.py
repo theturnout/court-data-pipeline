@@ -1,22 +1,17 @@
 import os
-import glob
 from dotenv import load_dotenv
 from rdflib.graph import Graph
 
-# IMPORT GRAPHS INTO DATASTORE #
 
-
-def db_importer():
+def data_importer(valid_json):
     """
-    Import validated JSON-LD data in RDF datastore
+    Import validated JSON-LD data into RDF datastore
     """
     # load environmental variables
     load_dotenv()
-    DB = os.getenv("DB_LOC") + "court-data.db"
+    DB = os.getenv("DB_LOC") + "/court-data.db"
 
-    valid_json_files = glob.glob("data/valid_json/*.json")
-
-    if len(valid_json_files) == 0:
+    if len(valid_json) < 1:
         print("No files provided to importer. Exiting script.")
         return
 
@@ -24,10 +19,13 @@ def db_importer():
     graph = Graph(store='Oxigraph', identifier='http://court')
 
     # connect to db
+    # 'create' arg should only be true the first time
+    # the importer is run. It will overwrite the db
+    # file otherwise.
     graph.open(DB, create=True)
 
-    for file in valid_json_files:
-        graph.parse(file, format="json-ld")
+    for file in valid_json:
+        graph.parse(data=file, format="json-ld")
 
     # Testing, return all records
     # result = graph.query("select * where {?s ?p ?o}")
@@ -36,4 +34,4 @@ def db_importer():
 
     graph.close()
 
-    print("Files successfully imported to DB.\nExecute 'scripts/db_exporter.py' to export database contents to JSON-LD file.\n")
+    print("Files successfully imported to DB.\nExecute 'components/db_exporter.py' to export database contents to JSON-LD file.\n")
