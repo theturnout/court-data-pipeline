@@ -23,12 +23,9 @@ class JsonScraper(scrapy.Spider):
 
         # GET request, pass response to parse()
         for url in self.urls:
-            if url == self.urls[-1]:
-                scrapy.Request(url, callback=self.parse)
-                return self.json_list
-            else:
-
-                yield scrapy.Request(url, callback=self.parse)
+            yield scrapy.Request(url, callback=self.parse)
+        else:
+            return self.json_list
 
     def parse(self, response):
 
