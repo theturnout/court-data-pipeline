@@ -1,5 +1,6 @@
 import json
 from pyshacl import validate
+import glob
 
 """
 validate scraped json files
@@ -9,8 +10,9 @@ if invalid, append error msg to errors
 
 class Validator:
 
-    def __init__(self, json_list):
-        self.json_list = [json.dumps(file) for file in json_list]
+    def __init__(self):
+        self.json_list = glob.glob("data/json/scraped/*.json")
+        self.valid_json = []
 
     def validate_json(self):
 
@@ -22,7 +24,7 @@ class Validator:
         errors = []
 
         if len(self.json_list) < 1:
-            print("No JSON-LD data found. Exiting.")
+            print("Validator found no JSON-LD data. Exiting.")
             raise SystemExit
 
         print(f"Starting file validation with {len(self.json_list)} files.")
@@ -47,15 +49,16 @@ class Validator:
                     msg = r[2]
                     errors.append(f"{file}\n{msg}\n")
                     print(
-                        f"File {self.json_list.index[file]} failed validation. Removing from file list.")
+                        f"{file} failed validation. Removing from file list.")
                     self.json_list.remove(file)
 
                 else:
-                    print("JSON file validated.")
+                    self.valid_json.append(json.load(open(file)))
+                    print(f"{file} validated.")
 
             except json.JSONDecodeError:
                 errors.append(f"{file}\nBad JSON format. Validation aborted.")
 
         print(*errors, sep="\n") if errors else print("All files successfully validated.")
 
-        return self.json_list
+        return self.valid_json

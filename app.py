@@ -5,7 +5,6 @@ from scrapy.crawler import CrawlerProcess
 from classes.json_scraper import JsonScraper
 from classes.validator import Validator
 import argparse
-from data.dev_data import json_list  # contains expected output of JsonScraper
 
 
 class App():
@@ -44,7 +43,7 @@ class App():
 
     # Validate files
     def validate_files(self):
-        validated_files = Validator(json_list)
+        validated_files = Validator()
         self.valid_json = validated_files.validate_json()
 
     # Import records to DB

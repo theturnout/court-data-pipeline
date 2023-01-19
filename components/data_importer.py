@@ -7,6 +7,7 @@ def data_importer(valid_json):
     """
     Import validated JSON-LD data into RDF datastore
     """
+
     # load environmental variables
     load_dotenv()
     DB = os.getenv("DB_LOC") + "/court-data.db"
@@ -32,11 +33,6 @@ def data_importer(valid_json):
         graph.parse(data=file, format="json-ld")
         file_count += 1
 
-    # Testing, return all records
-    # result = graph.query("select * where {?s ?p ?o}")
-    # for subject, predicate, object_ in result:
-    #     print(subject, predicate, object_)
-
     graph.close()
 
-    print(f"{file_count} files successfully imported to DB.\nExecute 'components/data_exporter.py' to export database contents to JSON-LD file.\nScript finished.\n")
+    print(f"{file_count} files successfully imported to DB.\nExecute 'queries/run_query.py' to export database contents to 'queries/results'.\nSee README for more information.\nScript finished.\n")

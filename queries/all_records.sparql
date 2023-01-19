@@ -1,0 +1,6 @@
+PREFIX schema: <http://schema.org/>
+prefix cds: <http://localhost:8000/data/defs/court-data-definitions.jsonld#> 
+
+SELECT DISTINCT ?ch ?o ?p WHERE {
+  ?ch ?o ?p.
+}
