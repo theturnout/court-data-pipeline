@@ -8,54 +8,57 @@ import argparse
 from data.dev_data import json_list  # contains expected output of JsonScraper
 
 
-def main():
+class App():
 
-    # define argument for providing csv file with urls to be scraped
-    parser = argparse.ArgumentParser()
-    parser.add_argument(
-        "urls", help="A list of website URLs to scrape for JSON-LD data provided in CSV format.")
+    def __init__(self):
+        self.url_csv = ""
+        self.urls = []
+        self.valid_json = []
 
-    # parse url csv path from arg
-    args = parser.parse_args()
-    url_csv = args.urls
+    def get_args(self):
+        # define argument for providing csv file with urls to be scraped
+        parser = argparse.ArgumentParser()
+        parser.add_argument(
+            "urls", help="A list of website URLs to scrape for JSON-LD data provided in CSV format.")
 
-    # check file has .csv extension
-    if os.path.splitext(url_csv)[-1] != ".csv":
-        print("URLs must be provided in CSV format.")
-        return
+        # parse url csv path from arg
+        args = parser.parse_args()
+        self.url_csv = args.urls
 
-    # pipeline = csv_import -> JsonScraper -> Validator -> Db_importer -> Db_exporter
+    def import_csv(self):
+        # check file has .csv extension
+        if os.path.splitext(self.url_csv)[-1] != ".csv":
+            print("URLs must be provided in CSV format.")
+            raise SystemExit
 
-    # # import and parse csv
-    urls = csv_import(url_csv)
+        # import and parse csv
+        self.urls = csv_import(self.url_csv)
 
-    # crawl provided urls and scrape json-ld data if present
-    process = CrawlerProcess(
-        # requests throttled due to limitations of python http.server
-        # this should not be necessary in production
-        settings={
-            "DOWNLOAD_DELAY": 1,
-            "CONCURRENT_REQUESTS_PER_DOMAIN": 10,
-            "LOG_LEVEL": "ERROR",
-            "DOWNLOAD_HANDLERS": {
-                "http": "scrapy_playwright.handler.ScrapyPlaywrightDownloadHandler",
-                "https": "scrapy_playwright.handler.ScrapyPlaywrightDownloadHandler",
-            },
-            "TWISTED_REACTOR": "twisted.internet.asyncioreactor.AsyncioSelectorReactor"
-        }
-    )
+    def scrape_urls(self):
+        # crawl provided urls and scrape json-ld data if present
+        scraper = JsonScraper([])
+        process = CrawlerProcess(scraper.settings)
 
-    process.crawl(JsonScraper, urls=urls)
-    process.start()
+        process.crawl(JsonScraper, self.urls)
+        process.start()
 
     # Validate files
-
-    validated_files = Validator(json_list)
-    valid_json = validated_files.validate_json()
+    def validate_files(self):
+        validated_files = Validator(json_list)
+        self.valid_json = validated_files.validate_json()
 
     # Import records to DB
-    data_importer(valid_json)
+    def import_data(self):
+        data_importer(self.valid_json)
+
+    def start_app(self):
+        self.get_args()
+        self.import_csv()
+        self.scrape_urls()
+        self.validate_files()
+        self.import_data()
 
 
 if __name__ == "__main__":
-    main()
+    app = App()
+    app.start_app()

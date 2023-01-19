@@ -16,16 +16,28 @@ class JsonScraper(scrapy.Spider):
         super(JsonScraper, self).__init__(*args, **kwargs)
         self.urls = urls
         self.json_list = []
+        self.settings = {
+            "DOWNLOAD_DELAY": 1,
+            "CONCURRENT_REQUESTS_PER_DOMAIN": 10,
+            "LOG_LEVEL": "ERROR",
+            "DOWNLOAD_HANDLERS": {
+                "http": "scrapy_playwright.handler.ScrapyPlaywrightDownloadHandler",
+                "https": "scrapy_playwright.handler.ScrapyPlaywrightDownloadHandler",
+            },
+            "TWISTED_REACTOR": "twisted.internet.asyncioreactor.AsyncioSelectorReactor"
+        }
 
     def start_requests(self):
 
-        print("Starting web scraper.")
+        if len(self.urls) < 1:
+            print("No URLs provided to scraper. Exiting.")
+            raise SystemExit
+
+        print(f"Starting web scraper with {len(self.urls)} URLs.")
 
         # GET request, pass response to parse()
         for url in self.urls:
             yield scrapy.Request(url, callback=self.parse)
-        else:
-            return self.json_list
 
     def parse(self, response):
 

@@ -13,10 +13,12 @@ def data_importer(valid_json):
 
     if len(valid_json) < 1:
         print("No files provided to importer. Exiting script.")
-        return
+        raise SystemExit
 
     # configure dialect/engine
     graph = Graph(store='Oxigraph', identifier='http://court')
+
+    print(f"Starting DB import with {len(valid_json)} files.")
 
     # connect to db
     # 'create' arg should only be true the first time
@@ -24,8 +26,11 @@ def data_importer(valid_json):
     # file otherwise.
     graph.open(DB, create=True)
 
+    file_count = 0
+
     for file in valid_json:
         graph.parse(data=file, format="json-ld")
+        file_count += 1
 
     # Testing, return all records
     # result = graph.query("select * where {?s ?p ?o}")
@@ -34,4 +39,4 @@ def data_importer(valid_json):
 
     graph.close()
 
-    print("Files successfully imported to DB.\nExecute 'components/db_exporter.py' to export database contents to JSON-LD file.\n")
+    print(f"{file_count} files successfully imported to DB.\nExecute 'components/data_exporter.py' to export database contents to JSON-LD file.\nScript finished.\n")

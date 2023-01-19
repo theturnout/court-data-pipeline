@@ -15,12 +15,17 @@ class Validator:
     def validate_json(self):
 
         # SHACL file to validate data against
+        # Will be replaced with remote resource in future versions
         shacl_file = 'data/defs/court-data-standard-shacl.ttl'
 
         # collect errors to display on exit
         errors = []
 
-        print("Starting file validation.")
+        if len(self.json_list) < 1:
+            print("No JSON-LD data found. Exiting.")
+            raise SystemExit
+
+        print(f"Starting file validation with {len(self.json_list)} files.")
 
         for file in self.json_list:
             try:
@@ -42,7 +47,8 @@ class Validator:
                     msg = r[2]
                     errors.append(f"{file}\n{msg}\n")
                     print(
-                        f"File{self.json_list.index[file]} failed validation.")
+                        f"File {self.json_list.index[file]} failed validation. Removing from file list.")
+                    self.json_list.remove(file)
 
                 else:
                     print("JSON file validated.")
