@@ -44,44 +44,40 @@ class JsonScraper(scrapy.Spider):
 
     def parse(self, response):
 
-        # try:
-        # look for json data.
-        linked_json = response.selector.xpath(
-            '//link[@type="application/ld+json"]/@href').get()
-        embedded_json = response.selector.xpath(
-            '//script[@type="application/ld+json"]/text()').get()
+        try:
+            # look for json data.
+            linked_json = response.selector.xpath(
+                '//link[@type="application/ld+json"]/@href').get()
+            embedded_json = response.selector.xpath(
+                '//script[@type="application/ld+json"]/text()').get()
 
-        # # use page source as filename, append ".json"
-        filename = os.path.splitext(response.url)[0] + ".json"
-        filename = filename.split("/")[-1]
+            # # use page source as filename, append ".json"
+            filename = os.path.splitext(response.url)[0] + ".json"
+            filename = filename.split("/")[-1]
 
-        if linked_json is not None:
-            # follow link to json file and grab data
-            res = requests.get(linked_json)
-            load_json = json.loads(res.content)
-        elif embedded_json is not None:
-            # parse json data from html source
-            # remove whitespace that is not in a value
-            load_json = re.sub(r'\s+[^\:\S\"]', "", embedded_json)
-            load_json = json.loads(load_json[1:-1])
-        else:
-            print(f"No valid JSON-LD data in {response.url}.")
+            if linked_json is not None:
+                # follow link to json file and grab data
+                res = requests.get(linked_json)
+                load_json = json.loads(res.content)
+            elif embedded_json is not None:
+                # parse json data from html source
+                # remove whitespace that is not in a value
+                embedded_json = re.sub(r'\s+[^\:\S\"]', "", embedded_json)
+                load_json = json.loads(embedded_json)
+            else:
+                print(f"No valid JSON-LD data in {response.url}.")
+                return
+
+            # append source and date metadata
+            load_json["source"] = response.url
+            load_json["accessed"] = str(datetime.datetime.now())
+
+            # write json file
+            json_out = json.dumps(load_json)
+            with open(f"./data/json/scraped/{filename}", "w") as output:
+                output.write(json_out)
+            print(f"{response.url} successfully scraped.")
+
+        except json.JSONDecodeError:
+            print("Bad JSON format. Skipping file.")
             return
-
-        # append source and date metadata
-        load_json["source"] = response.url
-        load_json["accessed"] = str(datetime.datetime.now())
-
-        # self.json_list.append(load_json)
-        # print(f"{response.url} successfully scraped.")
-        # return
-
-        # write json file
-        json_out = json.dumps(load_json)
-        with open(f"./data/json/scraped/{filename}", "w") as output:
-            output.write(json_out)
-        print(f"{response.url} successfully scraped.")
-
-        # except json.JSONDecodeError:
-        #     print("Bad JSON format. Skipping file.")
-        #     return
