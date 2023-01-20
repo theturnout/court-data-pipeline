@@ -1,9 +1,7 @@
 from scrapy.crawler import CrawlerProcess
-# from spiders.JsonSpider import JsonSpider
 import regex as re
 import os
 import json
-import csv
 import requests
 import datetime
 import scrapy

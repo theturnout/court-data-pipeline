@@ -42,4 +42,4 @@ DB_LOC = "absolute/path/to/database"
 
 `pipenv run python app.py data/sites/websites.csv`
 
-3. The pipeline terminates after storing the data ingested by the web scraper in an RDF data store. Queries against the database must be done using [SPARQL](https://www.w3.org/TR/sparql11-query/). Examples of simple queries are included in the `queries` directory and can be run by executing their associated `.py` scripts.
+3. The pipeline terminates after storing the data ingested by the web scraper in an RDF data store. Queries against the database must be done using [SPARQL](https://www.w3.org/TR/sparql11-query/). Examples of simple queries are included in the `queries` directory and can be run by executing the `run_query.py` script. By default, the script will return all records. In `run_query.py`, change the path in the `open` statement on Line 26 to `queries/basic.sparql` or `queries/more_advanced.sparql` to return other examples of data stored by the pipeline.
