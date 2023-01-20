@@ -1,6 +1,6 @@
 url
-http://localhost:8000/data/sites/linked/il-adams.html
-http://localhost:8000/data/sites/linked/ca-alhambra.html
-http://localhost:8000/data/sites/linked/mi-flint.html
-http://localhost:8000/data/sites/linked/nm-bernalillo.html
-http://localhost:8000/data/sites/linked/vt_chittenden.html
+http://localhost:8000/data/sites/embedded/il-adams.html
+http://localhost:8000/data/sites/embedded/ca-alhambra.html
+http://localhost:8000/data/sites/embedded/mi-flint.html
+http://localhost:8000/data/sites/embedded/nm-bernalillo.html
+http://localhost:8000/data/sites/embedded/vt_chittenden.html
