@@ -38,10 +38,10 @@ DB_LOC = "absolute/path/to/database"
 
 > Note: these resources are now available online and should obviate the need to host them locally. The current version still requires local hosting and so this step is still necessary. It will be removed in a later version.
 
-`pipenv run python -m http.server`
+`python -m http.server`
 
 2. Webpages to be scraped are provided to the script by passing a CSV file as an argument when executing the `.py` file. The location of the CSV file does not matter as long as the path in the argument is valid. Execute the following command to run the script with sample data.
 
-`pipenv run python app.py data/sites/websites.csv`
+`python app.py data/sites/websites.csv`
 
 3. The pipeline terminates after storing the data ingested by the web scraper in an RDF data store. Queries against the database must be done using [SPARQL](https://www.w3.org/TR/sparql11-query/). Examples of simple queries are included in the `queries` directory and can be run by executing the `run_query.py` script. By default, the script will return all records. In `run_query.py`, change the path in the `open` statement on Line 26 to `queries/basic.sparql` or `queries/more_advanced.sparql` to return other examples of data stored by the pipeline.
