@@ -8,9 +8,7 @@ The Pew Charitable Trusts' civil legal modernization project seeks to make civil
 
 The tool scrapes JSON-LD data from court websites, validates it against a SHACL schema, and stores the linked data as triples in a database. Web scraping is done using **Scrapy**, validation with **pyshacl**, and storage with **oxrdflib**. The standard vocabulary is provided by [Schema.org](https://schema.org) and is supplemented with extensions developed for this project.
 
-This version of the tool will ingest URLs from a CSV and scrape JSON-LD data (if present) from the provided websites. Any JSON-LD data found is validated against a [SHACL](https://www.w3.org/TR/shacl/) file before being stored in an [RDF](https://www.w3.org/RDF/) triplestore.
-
-This version of the tool will ingest URLs from a CSV and scrape the websites they identify for JSON-LD data. If found, the data will be validated before being stored in an RDF triplestore. Imported data can be retrieved in JSON format by running `db_exporter.py` located in the `scripts` folder.
+This version of the tool will ingest URLs from a CSV and scrape the websites it includes for JSON-LD data (both embedded and linked). If found, the data will be validated against a [SHACL](https://www.w3.org/TR/shacl/) schema before being stored in an [RDF](https://www.w3.org/RDF/) triplestore. Imported data can be retrieved in JSON format by running `db_exporter.py` located in the `scripts` folder.
 
 ## Requirements
 
